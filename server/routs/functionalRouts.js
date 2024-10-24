@@ -19,4 +19,4 @@ functionalRout.delete('/remove',function(req,res){
 })
 
 
-module.exports=functionalRout;
+module.exports={functionalRout};
