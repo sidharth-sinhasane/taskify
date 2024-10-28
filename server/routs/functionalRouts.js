@@ -3,7 +3,11 @@ const functionalRout=express.Router()
 const {Todo}=require('../db/models')
 
 functionalRout.get('/view',function(req,res){
-    res.status(200).json({message: "inside the view rout"})
+    res.status(200).json({
+        message: "inside the view rout",
+        username:req.user.userName
+    })
+    
 })
 
 functionalRout.post('/add',function(req,res){

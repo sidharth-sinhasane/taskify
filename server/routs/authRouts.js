@@ -53,7 +53,8 @@ signIn.post('/',async function(req,res){
             return res.status(400).json({message: "wrong username"})
         }
 
-        const ispasswordcorrect=await bcrypt.compare(existingUser.password,password)
+        console.log(existingUser.password,password)
+        const ispasswordcorrect=await bcrypt.compare(password,existingUser.password)
         if(!ispasswordcorrect){
             return res.status(400).json({message: "wrong password"})
         }
@@ -62,10 +63,15 @@ signIn.post('/',async function(req,res){
             { userId: existingUser._id, username: existingUser.userName },
             process.env.JWT_SECRET)
 
+        res.cookie('token',token,{
+            httpOnly:true,
+            maxAge:3600000
+        })
+
         res.status(200).json({message:"signup succesfull",
             token:token
         })
-    }   
+    }
     catch(error)
     {
         res.status(500).json({message: error.message})
