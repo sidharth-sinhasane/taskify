@@ -21,11 +21,11 @@ signUp.post('/', async function(req,res){
         return res.status(200).json({message:"user allready exist"})
     }
 
-    const ispasswordcorrect=await bcrypt.hash(password,10)
+    const hashedpassword=await bcrypt.hash(password,10)
 
     const newuser=new User({
         userName:username,
-        password:ispasswordcorrect
+        password:hashedpassword
     })
 
     await newuser.save()
@@ -46,7 +46,7 @@ signIn.post('/',async function(req,res){
     try{
         const {username,password}=req.body
         if(!username || !password){
-            return res.status(400).json("give all cr")
+            return res.status(400).json("give all cridentials")
         }
         const existingUser=await User.findOne({userName:username})
         if(!existingUser){
@@ -65,7 +65,7 @@ signIn.post('/',async function(req,res){
 
         res.cookie('token',token,{
             httpOnly:true,
-            maxAge:3600000
+            maxAge:360000
         })
 
         res.status(200).json({message:"signup succesfull",
